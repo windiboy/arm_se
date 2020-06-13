@@ -1,10 +1,13 @@
 #include "MotorDriver.h"
+#include "Kinematics.h"
 #include <iostream>
 
 
 uchar id[4] = {11, 12, 13, 14};
 int Baudrate = 1000000;
 int pos[4];
+double target_x,target_y;
+double target_thet1,target_thet2;
 
 MotorDriver motor[4];
 
@@ -47,5 +50,9 @@ int main(int argumentCount, const char* argumentValues[])
 {
     if(connect_check())
         motor_init();
+    ang2pos(&target_x,&target_y,3.14/3,-3.14*2/3);
+    std::cout << target_x << "   " << target_y <<std::endl;
+    pos2ang(target_x,target_y, &target_thet1,&target_thet2);
+    std::cout << target_thet1 << "   " << target_thet2 <<std::endl;
     return 0;
 }
