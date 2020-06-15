@@ -29,14 +29,10 @@ int motor_init(){
 int connect_check()
 {
     std::cout << "############### connect check! ###############" <<std::endl;
-    for(int i=1;i<=4;i++)
-    {
-        if(!motor.init(id[i],Baudrate)){
-            std::cout << id[i] <<"motor: connect failed!!!" <<std::endl;
-            return -1;
-        }
 
-    }
+    if(!motor.init(10,Baudrate))
+        return -1;
+
     for(int i=1;i<=4;i++)
     {
         if(!motor.getPos(id[i], &current_pos[i], ratio[i])){
