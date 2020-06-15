@@ -18,21 +18,15 @@ double target_thet1,target_thet2;
 MotorDriver motor;
 
 int motor_init(){
-
-
     for(int i=1;i<=4;i++){
         motor.setMaxSpeed(id[i],max_speed[i]);
         motor.setAcc(id[i],max_acc[i]);
+        motor.enable(id[i]);
     }
     for(int i=1;i<=4;i++) motor.setPos(id[i],home_pos[i]);
+    read_pos();
 }
-int connect_check()
-{
-    std::cout << "############### connect check! ###############" <<std::endl;
-
-    if(!motor.init(10,Baudrate))
-        return -1;
-
+int read_pos(){
     for(int i=1;i<=4;i++)
     {
         if(!motor.getPos(id[i], &current_pos[i])){
@@ -41,10 +35,20 @@ int connect_check()
         }
         std::cout << id[i] <<"motor pos: " << current_pos[i] << std::endl;
     }
+
+}
+int connect_check()
+{
+    std::cout << "############### connect check! ###############" <<std::endl;
+
+    if(!motor.init(10,Baudrate))
+        return -1;
+    read_pos();
     std::cout << "############### connect check is ok! ###############" <<std::endl;
     return 1;
 
 }
+
 int cartesian_pos(double target_x, double target_y){
     double thet1,thet2;
     pos2ang(target_x,target_y, &thet1,&thet2);
