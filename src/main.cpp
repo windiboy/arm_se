@@ -17,6 +17,7 @@ double target_thet1,target_thet2;
 
 MotorDriver motor;
 
+int read_pos();
 int motor_init(){
     for(int i=1;i<=4;i++){
         motor.setMaxSpeed(id[i],max_speed[i]);
