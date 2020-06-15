@@ -305,16 +305,14 @@ int MotorDriver::pos_control(char id, double target, int ratio) {
         return -1;
 }
 
-int MotorDriver::getPos(char id, double *current_pos, int ratio){
+int MotorDriver::getPos(char id, int *pos){
     uchar buffer[4];
-    int *pos;
     if(readreg(id,POS0,buffer,4)==4)
     {
         (*pos) = static_cast<int>(static_cast<unsigned int>(buffer[3]<<24)&0xFF000000);
         (*pos) |= ((buffer[2]<<16)&0xFF0000);
         (*pos) |= ((buffer[1]<<8)&0xFF00);
         (*pos) |= (buffer[0]&0xFF);
-        *current_pos = (*pos)*3.1415926/(262144*ratio);
         return 1;
     }
     return -1;

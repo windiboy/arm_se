@@ -83,7 +83,7 @@ public:
     int setPos(char id,int pos);
     int setPos_n(char id,int posn);
     int pos_control(char id, double target, int ratio);
-    int getPos(char id, double * _current_pos, int ratio);
+    int getPos(char id, int *pos);
     char check(unsigned char *data, int len);
 
     int readreg(unsigned char id ,unsigned char reg,unsigned char *buff, int len);

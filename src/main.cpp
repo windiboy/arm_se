@@ -11,7 +11,7 @@ int home_pos[4] = {0};
 int ratio[4] = {40};
 
 int Baudrate = 1000000;
-double current_pos[4];
+int current_pos[4];
 double target_x,target_y;
 double target_thet1,target_thet2;
 
@@ -24,7 +24,7 @@ int motor_init(){
         motor.setMaxSpeed(id[i],max_speed[i]);
         motor.setAcc(id[i],max_acc[i]);
     }
-    for(int i=1;i<=4;i++) motor.pos_control(id[i],home_pos[i],ratio[i]);
+    for(int i=1;i<=4;i++) motor.setPos(id[i],home_pos[i]);
 }
 int connect_check()
 {
@@ -35,7 +35,7 @@ int connect_check()
 
     for(int i=1;i<=4;i++)
     {
-        if(!motor.getPos(id[i], &current_pos[i], ratio[i])){
+        if(!motor.getPos(id[i], &current_pos[i])){
             std::cout << id[i] <<"motor: getpos failed!!!" <<std::endl;
             return -1;
         }
