@@ -1,6 +1,7 @@
 #include "MotorDriver.h"
 #include "Kinematics.h"
 #include "ros/ros.h"
+#include "math.h"
 #include "std_msgs/String.h"
 #include <unistd.h>
 #include <iostream>
@@ -40,10 +41,10 @@ int motor_init(){
         motor.setPos(id[i],home_pos[i]);
         motor.mSleep(10);
     }
-    motor.enable(10);
-    motor.mSleep(10);
-    motor.setPos(10,0);
-    motor.mSleep(10);
+//    motor.enable(10);
+//    motor.mSleep(10);
+//    motor.setPos(10,0);
+//    motor.mSleep(10);
     read_pos();
 }
 int read_pos(){
@@ -123,7 +124,28 @@ int cartesian_pos(double target_x, double target_y, double rotation, double grip
     std::cout << target[0] << "  " << target[1] << std::endl;
     write_pos(target);
 }
+int keyboard_control(double x=0.35, double y = 0, double index = 0.02){
+    std::cout << "cmd:" << command << x << y <<std::endl;
+    if(command == 'i')y = y+index;
+    if(command == ',')y = y-index;
+    if(command == 'l')x = x+index;
+    if(command == 'j')x = x-index;
+    if(command == 'k'){
+        x=0.35;
+        y=0.;
+    }
 
+    cartesian_pos(x,y,0,0,0.25);
+}
+int draw_circle(double center_x=0.25, double center_y=0, double r=0.05){
+    double x,y;
+    for(double t=0; t <= 1; t = t+0.01){
+        x = r*sin(t*2*PI)+center_x;
+        y = r*cos(t*2*PI)+center_y;
+        cartesian_pos(x,y,0,0,0.25);
+        motor.mSleep(10);
+    }
+}
 
 int main(int argumentCount, char* argumentValues[])
 {
@@ -131,36 +153,20 @@ int main(int argumentCount, char* argumentValues[])
     ros::NodeHandle n;
 
     ros::Subscriber sub = n.subscribe("cmd",1000,commandCallback);
-    ros::Rate loop_rate(1);
+    ros::Rate loop_rate(10);
 
     if(connect_check()) {
         motor_init();
         sleep(2);
         //cartesian_pos(0.25,0,PI/2,0,0.25);
     }
-//    double x=0.35,y=0.0;
-//    double index = 0.02;
-//    while (ros::ok())
-//    {
-//
-//        std::cout << "cmd:" << command << x << y <<std::endl;
-//        if(command == 'i')y = y+index;
-//        if(command == ',')y = y-index;
-//        if(command == 'l')x = x+index;
-//        if(command == 'j')x = x-index;
-//        if(command == 'k'){
-//            x=0.35;
-//            y=0.;
-//        }
-//        if(command == 'q')break;
-//
-//
-//        cartesian_pos(x,y);
-//
-//        loop_rate.sleep();
-//        ros::spinOnce();
-//
-//    }
+
+    while (ros::ok())
+    {
+        draw_circle();
+        loop_rate.sleep();
+        ros::spinOnce();
+    }
 
     return 0;
 }
