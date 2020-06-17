@@ -81,6 +81,7 @@ public:
 
     int setSpeed(char id,int speed);
     int setPos(char id,int pos);
+    int setAcc_MaxSpeed_Pos(char id , int pos, int maxspeed,int acc);
     int setPos_n(char id,int posn);
     int pos_control(char id, double target, int ratio);
     int getPos(char id, int *pos);

@@ -18,3 +18,12 @@ int pos2ang(double x, double y , double *thet1, double *thet2){
     } else
         return -1;
 }
+int angle_acc_calculation(double x__, double y__ , double thet1, double thet2, double *thet1__, double *thet2__){
+    double a11,a12,a21,a22;
+    a11 = -1*L1*sin(thet1)-L2*sin(thet1+thet2);
+    a12 = -L2*sin(thet1+thet2);
+    a21 = L1*cos(thet1)+L2*cos(thet1+thet2);
+    a22 = L2*cos(thet1+thet2);
+    *thet1__ = abs(a11*x__+a21*y__ );
+    *thet2__ = abs(a21*x__+a22*y__ );
+}

@@ -101,6 +101,25 @@ int write_pos(double *target){
     motor.setPos(10, pos[4]);
     motor.mSleep(10);
 }
+int write_pos_speed_acc(double *target, int *speed , int *acc ){
+    int pos[5];
+
+    if(!(target[0]>=-PI/2 && target[0]<=PI/2 &&
+         target[1]>=-PI*3/2 && target[1]<=PI*3/2)){
+        std::cout << "############### out of range! ###############" <<std::endl;
+        return -1;
+    }
+
+    for(int i=0;i<=1;i++) {
+
+        pos[i] = target[i]*262144*ratio[i]/(PI*2);
+        pos[0] = -pos[0];
+
+//        std::cout << "target pos: " << pos[i] << std::endl;
+        motor.setAcc_MaxSpeed_Pos(id[i], pos[i],speed[i],acc[i]);
+        motor.mSleep(10);
+    }
+}
 
 int connect_check()
 {
@@ -137,12 +156,27 @@ int keyboard_control(double x=0.35, double y = 0, double index = 0.02){
 
     cartesian_pos(x,y,0,0,0.25);
 }
-int draw_circle(double center_x=0.25, double center_y=0, double r=0.05){
+int draw_circle(double center_x=0.25, double center_y=0, double r=0.08){
     double x,y;
-    for(double t=0; t <= 1; t = t+0.01){
+    double x__,y__;
+    int acc_rpms[2]={1000,1000};
+    double acc[2];
+    int speed[2]={1000,1000};
+    double target[2];
+    for(double t=0; t <= 1; t = t+0.02){
         x = r*sin(t*2*PI)+center_x;
         y = r*cos(t*2*PI)+center_y;
-        cartesian_pos(x,y,0,0,0.25);
+        x__ = -1*r*2*PI*2*PI*sin(t*2*PI);
+        y__ = -1*r*2*PI*2*PI*cos(t*2*PI);
+//        cartesian_pos(x,y,0,0,0.25);
+
+        pos2ang(x,y, &target[0],&target[1]);
+        angle_acc_calculation(x__,y__,target[0],target[1],&acc[0],&acc[1]);
+        acc_rpms[0] = acc[0]*10000+500;
+        acc_rpms[1] = acc[1]*10000+500;
+        write_pos_speed_acc(target,speed,acc_rpms);
+
+        std::cout << acc_rpms[0] << "  " << acc_rpms[1] << std::endl;
         motor.mSleep(10);
     }
 }

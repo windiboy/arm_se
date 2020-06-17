@@ -257,6 +257,38 @@ int MotorDriver::setPos(char id, int target) {
     else
         return -1;
 }
+int MotorDriver::setAcc_MaxSpeed_Pos(char id , int pos, int maxspeed,int acc)
+{
+    int len = 15;
+    unsigned char data[len];
+
+    data[0] = 0xFE;
+    data[1] = 0xEF;
+    data[2] = id;
+    data[3] = 0x0B;
+    data[4] = 0x03;
+    data[5] = ACC0;
+
+    data[6] = acc&0xFF;
+    data[7] = (acc>>8)&0xFF;
+
+
+    data[8] = maxspeed&0xFF;
+    data[9] = (maxspeed>>8)&0xFF;
+
+    data[10] = pos&0xFF;
+    data[11] = (pos>>8)&0xFF;
+    data[12] = (pos>>16)&0xFF;
+    data[13] = (pos>>24)&0xFF; 
+
+    data[14] = MotorDriver::check(data, len);
+
+    if(w.send(data, len))
+        return 1;
+    else
+        return -1;
+
+}
 
 int MotorDriver::setPos_n(char id, int target_n) {
     int len = 11;
