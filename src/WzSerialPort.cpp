@@ -1,5 +1,5 @@
 
-#include "WzSerialPort.h"
+#include "../include/WzSerialPort.h"
 
 #include <iostream>
 #include<sys/file.h>

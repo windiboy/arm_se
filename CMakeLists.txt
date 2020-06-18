@@ -118,6 +118,10 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
+set(BOOST_ROOT "/usr/local/include/boost")
+find_package(Boost REQUIRED COMPONENTS filesystem iostreams) #version utility tuple mpl)
+include_directories(${Boost_INCLUDE_DIRS})
+link_libraries( ${Boost_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}

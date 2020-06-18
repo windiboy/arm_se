@@ -1,4 +1,4 @@
-#include "Kinematics.h"
+#include "../include/Kinematics.h"
 #include <iostream>
 
 //以机器人正前方为x轴正方向  竖直向上为y轴正方向
