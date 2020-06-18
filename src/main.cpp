@@ -1,6 +1,7 @@
 #include "../include/MotorDriver.h"
 #include "../include/Kinematics.h"
 #include "../include/gnuplot-iostream.h"
+#include "../include/cubicSpline.h"
 #include "ros/ros.h"
 #include "math.h"
 #include "std_msgs/String.h"
@@ -22,10 +23,10 @@ double target_x,target_y;
 double target_thet1,target_thet2;
 
 char command = ' ';
+int times = 0;
 
 MotorDriver motor;
 Gnuplot gp;
-std::vector<std::pair<double,double>> data;
 
 int read_pos();
 int write_pos(double *target);
@@ -51,8 +52,8 @@ int motor_init(){
     read_pos();
 }
 int read_pos(){
-    int pos[4];
-    for(int i=0;i<=3;i++)
+    int pos[3];
+    for(int i=0;i<=2;i++)
     {
         if(!motor.getPos(id[i], &pos[i])){
             std::cout << id[i] <<"motor: getpos failed!!!" <<std::endl;
@@ -63,6 +64,14 @@ int read_pos(){
         current_pos[0] = -current_pos[0];
         std::cout << id[i] <<"motor pos: " << current_pos[i] << std::endl;
     }
+
+    std::vector<std::pair<double,double>> data1,data2;
+    times = times +1;
+    data1.push_back(std::make_pair(times,current_pos[0]));
+    data2.push_back(std::make_pair(times,current_pos[1]));
+    gp << "plot" << gp.file1d(data1) << "with lines title 'current_pos[0]'," <<
+    gp.file1d(data2) << "with lines title 'current_pos[1]'," << std::endl;
+
 
 }
     //target 共五位
@@ -160,16 +169,41 @@ int keyboard_control(double x=0.35, double y = 0, double index = 0.02){
 }
 int draw_circle(double center_x=0.25, double center_y=0, double r=0.08){
     double x,y;
+    std::vector<std::pair<double,double>> data;
 
     for(double t=0; t <= 1; t = t+0.02){
         x = r*sin(t*2*PI)+center_x;
         y = r*cos(t*2*PI)+center_y;
 
-        data.push_back(std::make_pair(x,y));
+//        data.push_back(std::make_pair(x,y));
 //        gp << "plot" << gp.file1d(data) << "with lines title 'circle'," << std::endl;
 
         cartesian_pos(x,y,0,0,0.25);
         motor.mSleep(10);
+    }
+
+}
+void test1(){
+    int POINTS_COUNT = 4;
+    double x_data[POINTS_COUNT] = {0, 1, 2};
+    double y_data[POINTS_COUNT] = {0, 0.8, 1.6};
+
+    double x_out = 0;
+    double y_out = 0;
+    Gnuplot gp;
+    std::vector<std::pair<double, double> > data;
+
+    cubicSpline spline;
+    spline.loadData(x_data, y_data, POINTS_COUNT, 0, 0, cubicSpline::BoundType_First_Derivative);
+
+    x_out = -0.008;
+    for(int i=0; i<=250; i++)
+    {
+        x_out = x_out + 0.008;
+        spline.getYbyX(x_out, y_out);
+        printf("%f, %0.9f \n", x_out, y_out);
+        data.push_back(std::make_pair(x_out, y_out));
+        gp << "plot" << gp.file1d(data) << "with lines title 'cubic'," << std::endl;
     }
 
 }
@@ -185,7 +219,8 @@ int main(int argumentCount, char* argumentValues[])
     if(connect_check()) {
         motor_init();
         sleep(2);
-        //cartesian_pos(0.25,0,PI/2,0,0.25);
+//        cartesian_pos(0.25,0,PI/2,0,0.25);
+//        test1();
     }
 
     while (ros::ok())

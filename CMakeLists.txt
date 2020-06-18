@@ -129,7 +129,7 @@ link_libraries( ${Boost_LIBRARIES})
 # )
 
 add_executable(main src/main.cpp)
-target_link_libraries(main ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics )
+target_link_libraries(main ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics cubicSpline)
 add_dependencies(main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_executable(cmd src/cmd.cpp)
@@ -147,6 +147,10 @@ add_dependencies(WzSerialPort ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPOR
 add_library(Kinematics src/Kinematics.cpp)
 target_link_libraries(Kinematics ${catkin_LIBRARIES})
 add_dependencies(Kinematics ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_library(cubicSpline src/cubicSpline.cpp)
+target_link_libraries(cubicSpline ${catkin_LIBRARIES})
+add_dependencies(cubicSpline ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
