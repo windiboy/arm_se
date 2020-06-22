@@ -199,9 +199,9 @@ int draw_circle(double center_x=0.25, double center_y=0, double r=0.08){
 
 }
 void test1(double start_x, double start_y, double end_x, double end_y, int points){
-    int POINTS_COUNT = 4;
+    int POINTS_COUNT = 3;
     double x_data[POINTS_COUNT] = {start_x, (start_x+end_x)/2, end_x};
-    double y_data[POINTS_COUNT] = {start_y, (start_y+end_y/2), end_y};
+    double y_data[POINTS_COUNT] = {start_y, (start_y+end_y)/2, end_y};
 
     double x_out = 0;
     double y_out = 0;
@@ -216,9 +216,10 @@ void test1(double start_x, double start_y, double end_x, double end_y, int point
     {
         spline.getYbyX(x_out, y_out);
 
-//        printf("%f, %0.9f \n", x_out, y_out);
-//        data.push_back(std::make_pair(x_out, y_out));
-//        gp << "plot" << gp.file1d(data) << "with lines title 'cubic'," << std::endl;
+        printf("%f, %0.9f \n", x_out, y_out);
+        data.push_back(std::make_pair(x_out, y_out));
+        gp << "plot" << gp.file1d(data) << "with lines title 'cubic'," << std::endl;
+
         write_pos(x_out,y_out,PI/2,0,0.25);
         read_pos();
         show();
@@ -239,6 +240,7 @@ int main(int argumentCount, char* argumentValues[])
     if(connect_check()) {
         motor_init();
         sleep(2);
+        read_pos();
 //        write_pos(0.25,0,PI/2,0,0.25);
         test1(current_pos[0],current_pos[1],0.25,0.08,50);
 //        test1(0.35,0,0.25,0.08,50);
