@@ -28,7 +28,7 @@ int times = 0;
 
 MotorDriver motor;
 Gnuplot gp;
-std::vector <std::pair<double, double>> data1, data2;
+std::vector <std::pair<double, double>> data1, data2, data3;
 
 int read_angle();
 int read_pos();
@@ -85,8 +85,10 @@ int show(){
     times = times + 1;
     data1.push_back(std::make_pair(times, current_pos[0]));
     data2.push_back(std::make_pair(times, current_pos[1]));
+    data3.push_back(std::make_pair(current_pos[0], current_pos[1]));
     gp << "plot" << gp.file1d(data1) << "with lines title 'current_pos[0]'," <<
        gp.file1d(data2) << "with lines title 'current_pos[1]'," << std::endl;
+    gp << "plot" << gp.file1d(data3) << "with lines title 'X-Y'," << std::endl;
 }
     //target 共五位
     //第一位；11号电机弧度 -PI/2～PI/2
