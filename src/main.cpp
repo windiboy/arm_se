@@ -28,6 +28,7 @@ int times = 0;
 
 MotorDriver motor;
 Gnuplot gp;
+std::vector <std::pair<double, double>> data1, data2;
 
 int read_angle();
 int read_pos();
@@ -77,15 +78,15 @@ int read_pos(){
     ang2pos(&current_pos[0],&current_pos[1],current_angle[0],current_angle[1]);
     for(int i=0;i<=2;i++) {
         std::cout << i << "motor pos: " << current_pos[i] << std::endl;
-
-        std::vector <std::pair<double, double>> data1, data2;
-        times = times + 1;
-        data1.push_back(std::make_pair(times, current_pos[0]));
-        data2.push_back(std::make_pair(times, current_pos[1]));
-        gp << "plot" << gp.file1d(data1) << "with lines title 'current_pos[0]'," <<
-           gp.file1d(data2) << "with lines title 'current_pos[1]'," << std::endl;
     }
 
+}
+int show(){
+    times = times + 1;
+    data1.push_back(std::make_pair(times, current_pos[0]));
+    data2.push_back(std::make_pair(times, current_pos[1]));
+    gp << "plot" << gp.file1d(data1) << "with lines title 'current_pos[0]'," <<
+       gp.file1d(data2) << "with lines title 'current_pos[1]'," << std::endl;
 }
     //target 共五位
     //第一位；11号电机弧度 -PI/2～PI/2
@@ -193,6 +194,7 @@ int draw_circle(double center_x=0.25, double center_y=0, double r=0.08){
 
         write_pos(x,y,0,0,0.25);
         read_pos();
+        show();
     }
 
 }
@@ -240,6 +242,7 @@ int main(int argumentCount, char* argumentValues[])
     {
         draw_circle();
 
+        show();
         loop_rate.sleep();
         ros::spinOnce();
     }
