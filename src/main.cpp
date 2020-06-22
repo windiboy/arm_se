@@ -18,7 +18,8 @@ int home_pos[4] = {0,0,0,850};
 int ratio[4] = {40,40,40,40};
 
 int Baudrate = 1000000;
-double current_pos[4];
+double current_angle[4]{0,0,0,0};
+double current_pos[3]={0,0,0};
 double target_x,target_y;
 double target_thet1,target_thet2;
 
@@ -28,8 +29,10 @@ int times = 0;
 MotorDriver motor;
 Gnuplot gp;
 
+int read_angle();
 int read_pos();
-int write_pos(double *target);
+int write_angle(double *target);
+
 void commandCallback(const std_msgs::String::ConstPtr& msg){
     command = *msg->data.c_str();
 
@@ -51,7 +54,7 @@ int motor_init(){
 
     read_pos();
 }
-int read_pos(){
+int read_angle(){
     int pos[3];
     for(int i=0;i<=2;i++)
     {
@@ -60,18 +63,28 @@ int read_pos(){
             return -1;
         }
         motor.mSleep(10);
-        current_pos[i] = pos[i]*PI*2/(262144*ratio[i]);
-        current_pos[0] = -current_pos[0];
-        std::cout << id[i] <<"motor pos: " << current_pos[i] << std::endl;
+        current_angle[i] = pos[i]*PI*2/(262144*ratio[i]);
+        current_angle[0] = -current_angle[0];
+//        std::cout << id[i] <<"motor pos: " << current_angle[i] << std::endl;
     }
 
-    std::vector<std::pair<double,double>> data1,data2;
-    times = times +1;
-    data1.push_back(std::make_pair(times,current_pos[0]));
-    data2.push_back(std::make_pair(times,current_pos[1]));
-    gp << "plot" << gp.file1d(data1) << "with lines title 'current_pos[0]'," <<
-    gp.file1d(data2) << "with lines title 'current_pos[1]'," << std::endl;
 
+
+
+}
+int read_pos(){
+    read_angle();
+    ang2pos(&current_pos[0],&current_pos[1],current_angle[0],current_angle[1]);
+    for(int i=0;i<=2;i++) {
+        std::cout << i << "motor pos: " << current_pos[i] << std::endl;
+
+        std::vector <std::pair<double, double>> data1, data2;
+        times = times + 1;
+        data1.push_back(std::make_pair(times, current_pos[0]));
+        data2.push_back(std::make_pair(times, current_pos[1]));
+        gp << "plot" << gp.file1d(data1) << "with lines title 'current_pos[0]'," <<
+           gp.file1d(data2) << "with lines title 'current_pos[1]'," << std::endl;
+    }
 
 }
     //target 共五位
@@ -80,7 +93,7 @@ int read_pos(){
     //第三位：13号电机弧度 -PI～PI
     //第四位：夹抓电机 0-1 0加紧 1打开
     //第五位：10号电机 0-0.25 向上为正
-int write_pos(double *target){
+int write_angle(double *target){
     int pos[5];
 
     if(!(target[0]>=-PI/2 && target[0]<=PI/2 &&
@@ -113,7 +126,7 @@ int write_pos(double *target){
     motor.setPos(10, pos[4]);
     motor.mSleep(10);
 }
-int write_pos_speed_acc(double *target, int *speed , int *acc ){
+int write_angle_speed_acc(double *target, int *speed , int *acc ){
     int pos[5];
 
     if(!(target[0]>=-PI/2 && target[0]<=PI/2 &&
@@ -138,21 +151,21 @@ int connect_check()
 
     if(!motor.init(10,Baudrate))
         return -1;
-    read_pos();
+    read_angle();
     std::cout << "############### connect check is ok! ###############" <<std::endl;
     return 1;
 
 }
 
-int cartesian_pos(double target_x, double target_y, double rotation, double gripper, double platform){
+int write_pos(double target_x, double target_y, double rotation, double gripper, double platform){
     double target[5];
     pos2ang(target_x,target_y, &target[0],&target[1]);
     target[2] = rotation;
     target[3] = gripper;
     target[4] = platform;
 
-    std::cout << target[0] << "  " << target[1] << std::endl;
-    write_pos(target);
+//    std::cout << target[0] << "  " << target[1] << std::endl;
+    write_angle(target);
 }
 int keyboard_control(double x=0.35, double y = 0, double index = 0.02){
     std::cout << "cmd:" << command << x << y <<std::endl;
@@ -165,7 +178,7 @@ int keyboard_control(double x=0.35, double y = 0, double index = 0.02){
         y=0.;
     }
 
-    cartesian_pos(x,y,0,0,0.25);
+    write_pos(x,y,0,0,0.25);
 }
 int draw_circle(double center_x=0.25, double center_y=0, double r=0.08){
     double x,y;
@@ -178,8 +191,8 @@ int draw_circle(double center_x=0.25, double center_y=0, double r=0.08){
 //        data.push_back(std::make_pair(x,y));
 //        gp << "plot" << gp.file1d(data) << "with lines title 'circle'," << std::endl;
 
-        cartesian_pos(x,y,0,0,0.25);
-        motor.mSleep(10);
+        write_pos(x,y,0,0,0.25);
+        read_pos();
     }
 
 }
@@ -219,13 +232,14 @@ int main(int argumentCount, char* argumentValues[])
     if(connect_check()) {
         motor_init();
         sleep(2);
-//        cartesian_pos(0.25,0,PI/2,0,0.25);
+//        write_pos(0.25,0,PI/2,0,0.25);
 //        test1();
     }
 
     while (ros::ok())
     {
         draw_circle();
+
         loop_rate.sleep();
         ros::spinOnce();
     }
