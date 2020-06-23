@@ -119,7 +119,7 @@ int write_angle(double *target){
         motor.mSleep(10);
     }
 
-    pos[3] = target[3]*(850-350)+350;
+    pos[3] = target[3]*(850-450)+450;
 //    std::cout << "target pos: " << pos[3] << std::endl;
     motor.setPos(id[3], pos[3]);
     motor.mSleep(10);
