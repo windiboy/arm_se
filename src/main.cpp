@@ -244,7 +244,7 @@ int main(int argumentCount, char* argumentValues[])
         sleep(2);
 //        write_pos(0.25,0,PI/2,0,0.25);
         read_pos();
-        test1(current_pos[0],current_pos[1],0.25,0.08,50,PI/2,0,0.25);
+        test1(current_pos[0],current_pos[1],0.25,0.08,20,PI/2,0,0.25);
 //        test1(0.35,0,0.25,0.08,50);
     }
 
