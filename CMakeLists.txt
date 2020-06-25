@@ -136,6 +136,10 @@ add_executable(cmd src/cmd.cpp)
 target_link_libraries(cmd ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics )
 add_dependencies(cmd ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_library(ArmDriver src/ArmDriver.cpp)
+target_link_libraries(ArmDriver ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics cubicSpline)
+add_dependencies(ArmDriver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 add_library(MotorDriver src/MotorDriver.cpp)
 target_link_libraries(MotorDriver ${catkin_LIBRARIES} WzSerialPort)
 add_dependencies(MotorDriver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
