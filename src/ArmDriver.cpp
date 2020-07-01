@@ -21,6 +21,7 @@ int ArmDriver::connect_check() {
     return 1;
 }
 int ArmDriver::motor_init(){
+    ArmDriver::connect_check();
     for(int i=0;i<=3;i++){
         motor.setMaxSpeed(id[i],max_speed[i]);
         motor.setAcc(id[i],max_acc[i]);

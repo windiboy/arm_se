@@ -9,6 +9,7 @@
 #include "../include/Kinematics.h"
 #include "../include/gnuplot-iostream.h"
 #include "../include/cubicSpline.h"
+#include "../include/WzSerialPort.h"
 
 #define PI 3.1415926
 
