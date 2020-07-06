@@ -1,4 +1,4 @@
-<launch
+<launch>
     <node name="arm_se_control_center" pkg="arm_se" type="control_center" output="screen"/>
     <node name="arm_se_camera" pkg="d435_camera" type="camera" />
     <node name="arm_se_arm" pkg="arm_se" type="arm_control" />
