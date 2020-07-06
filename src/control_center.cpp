@@ -10,7 +10,7 @@ geometry_msgs::Point cam_recognition;
 
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
-    &msg = cam_recognition;
+    cam_recognition = &msg;
 //    ROS_INFO("hello");
 
 }
