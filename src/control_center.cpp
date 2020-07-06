@@ -5,6 +5,9 @@
 
 using namespace std;
 
+arm_se::ArmControl arm_msg;
+geometry_msgs::Point cam_recognition;
+
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
     &msg = cam_recognition;
@@ -19,8 +22,7 @@ int main(int argc, char** argv){
     ros::Subscriber cam_sub = n.subscribe("camera_point",1000,cameraCallback);
     ros::Rate loop_rate(50);
 
-    arm_se::ArmControl arm_msg;
-    geometry_msgs::Point cam_recognition;
+
 
     while (ros::ok()){
         cout<<"Object position In Robot Coordinate "<<"( "<<cam_recognition.x <<","<<cam_recognition.y<","<< cam_recognition.z <<" )"<<endl;
