@@ -27,7 +27,7 @@ int main(int argc, char** argv){
 
 
     while (ros::ok()){
-        cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<","<<object_pos[1]<","<< object_pos[2] <<" )"<<endl;
+        cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
 
         loop_rate.sleep();
         ros::spinOnce();
