@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
   message_generation
 )
 
@@ -136,6 +137,10 @@ add_dependencies(main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARG
 add_executable(arm_control src/arm_control.cpp)
 target_link_libraries(arm_control ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics cubicSpline ArmDriver)
 add_dependencies(arm_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(control_center src/control_center.cpp)
+target_link_libraries(control_center ${catkin_LIBRARIES})
+add_dependencies(control_center ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 add_library(ArmDriver src/ArmDriver.cpp)
 target_link_libraries(ArmDriver ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics cubicSpline)
