@@ -6,11 +6,13 @@
 using namespace std;
 
 arm_se::ArmControl arm_msg;
-geometry_msgs::Point cam_recognition;
+float object_pos[3];
 
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
-    cam_recognition = &msg;
+    object_pos[0] = msg->x;
+    object_pos[1] = msg->y;
+    object_pos[2] = msg->z;
 //    ROS_INFO("hello");
 
 }
@@ -25,7 +27,7 @@ int main(int argc, char** argv){
 
 
     while (ros::ok()){
-        cout<<"Object position In Robot Coordinate "<<"( "<<cam_recognition.x <<","<<cam_recognition.y<","<< cam_recognition.z <<" )"<<endl;
+        cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<","<<object_pos[1]<","<< object_pos[2] <<" )"<<endl;
 
         loop_rate.sleep();
         ros::spinOnce();
