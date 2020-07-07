@@ -11,17 +11,16 @@ ArmDriver::ArmDriver(){
 }
 ArmDriver::~ArmDriver(){
 }
-int ArmDriver::connect_check() {
+
+int ArmDriver::motor_init(const char *port_name)){
     std::cout << "############### connect check! ###############" <<std::endl;
 
-    if(!motor.init(10,Baudrate))
-        return -1;
+    if(!motor.init(port_name,Baudrate))
+    return -1;
     ArmDriver::read_angle();
     std::cout << "############### connect check is ok! ###############" <<std::endl;
-    return 1;
-}
-int ArmDriver::motor_init(){
-    ArmDriver::connect_check();
+
+
     for(int i=0;i<=3;i++){
         motor.setMaxSpeed(id[i],max_speed[i]);
         motor.setAcc(id[i],max_acc[i]);
@@ -37,6 +36,7 @@ int ArmDriver::motor_init(){
     motor.mSleep(10);
 
     ArmDriver::read_pos();
+    return 1;
 }
 int ArmDriver::read_angle() {
     int pos[3];

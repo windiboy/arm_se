@@ -23,7 +23,8 @@ int main(int argc, char** argv)
     ros::Subscriber sub = n.subscribe("arm_control",1000,controlCallback);
     ros::Rate loop_rate(50);
     ROS_INFO("############Arm init#############");
-    arm.motor_init();
+
+    arm.motor_init('/dev/ttyUSB2');
     sleep(2);
     arm.write_pos(0.2,0,0,0,0.25);
 

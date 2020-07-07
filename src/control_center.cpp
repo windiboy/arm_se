@@ -36,11 +36,15 @@ int main(int argc, char** argv){
             zoo_msg.linear.x = 0.5;
             zoo_pub.publish(zoo_msg);
         } else{
+            zoo_msg.linear.x = 0;
+            zoo_pub.publish(zoo_msg);
+
             arm_msg.target_x = object_pos[0];
             arm_msg.target_y = 0;
             arm_msg.rotation = 0;
             arm_msg.gripper = 0;
             arm_msg.platform = object_pos[1];
+            arm_pub.publish(arm_msg);
 
             zoo_msg.linear.x = -0.5;
             zoo_pub.publish(zoo_msg);
