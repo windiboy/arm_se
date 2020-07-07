@@ -48,12 +48,12 @@ int main(int argc, char** argv){
 
             sleep(2);
 
-            arm_msg.target_x = object_pos[0];
-            arm_msg.target_y = 0;
-            arm_msg.rotation = 0;
-            arm_msg.gripper = 0;
-            arm_msg.platform = object_pos[1]+0.1;
-            arm_pub.publish(arm_msg);
+//            arm_msg.target_x = object_pos[0];
+//            arm_msg.target_y = 0;
+//            arm_msg.rotation = 0;
+//            arm_msg.gripper = 0;
+//            arm_msg.platform = object_pos[1]+0.1;
+//            arm_pub.publish(arm_msg);
         }
 
         loop_rate.sleep();
