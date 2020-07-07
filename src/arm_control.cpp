@@ -14,7 +14,7 @@ void controlCallback(const arm_se::ArmControl::ConstPtr& msg){
 
 }
 
-int main(int argc, char** argv){
+int main(int argc, char** argv)
 {
     ros::init(argc,argv, "arm_se");
     ros::NodeHandle n;
