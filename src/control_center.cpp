@@ -33,21 +33,16 @@ int main(int argc, char** argv){
     while (ros::ok()){
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
         if(object_pos[0]>0.35){
-            zoo_msg.linear.x = 0.5;
-            zoo_pub.publish(zoo_msg);
+            cout<<"Too Far!!!!!!! "<<endl;
         } else{
-            zoo_msg.linear.x = 0;
-            zoo_pub.publish(zoo_msg);
 
             arm_msg.target_x = object_pos[0];
             arm_msg.target_y = 0;
             arm_msg.rotation = 0;
             arm_msg.gripper = 0;
-            arm_msg.platform = object_pos[1];
+            arm_msg.platform = object_pos[1]+0.1;
             arm_pub.publish(arm_msg);
 
-            zoo_msg.linear.x = -0.5;
-            zoo_pub.publish(zoo_msg);
         }
 
         loop_rate.sleep();
