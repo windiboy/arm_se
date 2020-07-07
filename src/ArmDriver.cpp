@@ -12,7 +12,7 @@ ArmDriver::ArmDriver(){
 ArmDriver::~ArmDriver(){
 }
 
-int ArmDriver::motor_init(const char *port_name)){
+int ArmDriver::motor_init(const char *port_name){
     std::cout << "############### connect check! ###############" <<std::endl;
 
     if(!motor.init(port_name,Baudrate))
