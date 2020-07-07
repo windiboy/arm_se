@@ -10,7 +10,7 @@ ArmDriver arm;
 void controlCallback(const arm_se::ArmControl::ConstPtr& msg){
     arm.write_pos(msg->target_x,msg->target_y,msg->rotation,msg->gripper,msg->platform);
 //    std::cout << msg->target_x << std::endl;
-//    ROS_INFO("hello");
+    ROS_INFO("hello");
 
 }
 
@@ -21,6 +21,7 @@ int main(int argc, char** argv)
 
     ros::Subscriber sub = n.subscribe("arm_control",1000,controlCallback);
     ros::Rate loop_rate(50);
+    ROS_INFO("############Arm init#############");
     arm.motor_init();
 
 //    ros::spin();
