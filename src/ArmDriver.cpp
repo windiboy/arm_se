@@ -98,7 +98,7 @@ int ArmDriver::write_pos(double target_x, double target_y, double rotation, doub
     target[3] = gripper;
     target[4] = platform;
 
-    std::cout << target[0] << "  " << target[1] << std::endl;
+    std::cout << target[0] << "  " << target[1] << "  " << target[2]<< "  " << target[3]<< "  " << target[4]<< std::endl;
     ArmDriver::write_angle(target);
 }
 int ArmDriver::interpolation(double start_x, double start_y, double end_x, double end_y, int points, double rotation,
