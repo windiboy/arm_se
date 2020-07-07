@@ -24,7 +24,7 @@ bool MotorDriver::init(uchar id , int baudrate) {
     char portname[20];
     for(int i=0;i<10;i++)
     {
-        sprintf(portname,"/dev/ttyUSB%d",2);
+        sprintf(portname,"/dev/ttyUSB%d",i);
         if(w.open(portname, baudrate, 'N', 8, 1))
         {
             uchar recdata;
