@@ -181,7 +181,7 @@ int MotorDriver::calUsrPos(char id, int calpos){
 
 
 int MotorDriver::setSpeed(char id,int speed) {
-    int len = 9;={'/dev/ttyUSB2'}
+    int len = 9;
     unsigned char data[len];
     //data = 'FE EF '+self.motor_id+' 04 03 62 01 '+self.check(self.motor_id+' 04 03 62 01 ')
     data[0] = 0xFE;
