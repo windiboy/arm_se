@@ -14,22 +14,22 @@ void controlCallback(const arm_se::ArmControl::ConstPtr& msg){
 
 }
 
-int main(int argumentCount, char* argumentValues[])
+int main(int argc, char** argv){
 {
-    ros::init(argumentCount,argumentValues, "arm_se");
+    ros::init(argc,argv, "arm_se");
     ros::NodeHandle n;
 
     ros::Subscriber sub = n.subscribe("arm_control",1000,controlCallback);
     ros::Rate loop_rate(50);
     arm.motor_init();
 
-    ros::spin();
-//    while (ros::ok())
-//    {
-//
-//        loop_rate.sleep();
-//        ros::spinOnce();
-//    }
+//    ros::spin();
+    while (ros::ok())
+    {
+
+        loop_rate.sleep();
+        ros::spinOnce();
+    }
 
     return 0;
 }
