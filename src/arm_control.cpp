@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     ROS_INFO("############Arm init#############");
     arm.motor_init();
     sleep(2);
-    arm.write_pos(0.2,0,0,0,0.25)
+    arm.write_pos(0.2,0,0,0,0.25);
 
 //    ros::spin();
     while (ros::ok())
