@@ -29,10 +29,10 @@ int ArmDriver::motor_init(){
         motor.enable(id[i]);
         motor.mSleep(10);
     }
-    for(int i=0;i<=3;i++) {
-        motor.setPos(id[i],home_pos[i]);
-        motor.mSleep(10);
-    }
+//    for(int i=0;i<=3;i++) {
+//        motor.setPos(id[i],home_pos[i]);
+//        motor.mSleep(10);
+//    }
     motor.enable(10);
     motor.mSleep(10);
 
