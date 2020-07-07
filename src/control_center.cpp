@@ -40,7 +40,7 @@ int main(int argc, char** argv){
             arm_msg.target_y = 0;
             arm_msg.rotation = 0;
             arm_msg.gripper = 0;
-            arm_msg.platform = object_pos[y];
+            arm_msg.platform = object_pos[1];
 
             zoo_msg.linear.x = -0.5;
             zoo_pub.publish(zoo_msg);
