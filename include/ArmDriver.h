@@ -30,7 +30,8 @@ public:
 
     ArmDriver();
     ~ArmDriver();
-    int motor_init(const char *port_name);
+    int connect_check();
+    int motor_init();
     int read_angle();
     int read_pos();
     int write_angle(double *target);

@@ -24,7 +24,7 @@ bool MotorDriver::init(uchar id , int baudrate) {
     char portname[20];
     for(int i=0;i<10;i++)
     {
-        sprintf(portname,"/dev/ttyUSB%d",i);
+        sprintf(portname,"/dev/ttyUSB%d",2);
         if(w.open(portname, baudrate, 'N', 8, 1))
         {
             uchar recdata;
@@ -181,7 +181,7 @@ int MotorDriver::calUsrPos(char id, int calpos){
 
 
 int MotorDriver::setSpeed(char id,int speed) {
-    int len = 9;
+    int len = 9;={'/dev/ttyUSB2'}
     unsigned char data[len];
     //data = 'FE EF '+self.motor_id+' 04 03 62 01 '+self.check(self.motor_id+' 04 03 62 01 ')
     data[0] = 0xFE;
