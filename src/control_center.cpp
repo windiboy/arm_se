@@ -34,7 +34,9 @@ int main(int argc, char** argv){
     while (ros::ok()){
         ros::spinOnce();
 
+        object_pos[0]=object_pos[0]-0.1;
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
+
         if(object_pos[0]>0.55 && object_pos[0]<0.3){
             cout<<"Too Far Or Too Close !!!!!!! "<<endl;
         } else{
