@@ -1,11 +1,14 @@
 #include "ros/ros.h"
 #include "arm_se/ArmControl.h"
 #include "geometry_msgs/Point.h"
+#include "geometry_msgs/Twist.h"
 #include <iostream>
+#include "math.h"
 
 using namespace std;
 
 arm_se::ArmControl arm_msg;
+geometry_msgs::Twist zoo_msg;
 float object_pos[3];
 
 
@@ -21,6 +24,7 @@ int main(int argc, char** argv){
     ros::NodeHandle n;
 
     ros::Publisher arm_pub = n.advertise<arm_se::ArmControl>("arm_control", 50);
+    ros::Publisher zoo_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 50);
     ros::Subscriber cam_sub = n.subscribe("camera_point",1000,cameraCallback);
     ros::Rate loop_rate(50);
 
@@ -28,6 +32,19 @@ int main(int argc, char** argv){
 
     while (ros::ok()){
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
+        if(object_pos[0]>0.35){
+            zoo_msg.linear.x = 0.5;
+            zoo_pub.publish(zoo_msg);
+        } else{
+            arm_msg.target_x = object_pos[0];
+            arm_msg.target_y = 0;
+            arm_msg.rotation = 0;
+            arm_msg.gripper = 0;
+            arm_msg.platform = object_pos[y];
+
+            zoo_msg.linear.x = -0.5;
+            zoo_pub.publish(zoo_msg);
+        }
 
         loop_rate.sleep();
         ros::spinOnce();

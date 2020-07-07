@@ -2,6 +2,7 @@
 #include "ros/ros.h"
 #include "arm_se/ArmControl.h"
 #include <iostream>
+#include <unistd.h>
 
 #define PI 3.1415926
 
@@ -23,6 +24,8 @@ int main(int argc, char** argv)
     ros::Rate loop_rate(50);
     ROS_INFO("############Arm init#############");
     arm.motor_init();
+    sleep(2);
+    arm.write_pos(0.2,0,0,0,0.25)
 
 //    ros::spin();
     while (ros::ok())
