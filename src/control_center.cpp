@@ -12,7 +12,7 @@ arm_se::ArmControl arm_msg;
 geometry_msgs::Twist zoo_msg;
 float object_pos[3];
 
-public class MovingAverage {
+class MovingAverage {
 private final int maxSize;
 private final Queue<Integer> window;
 private long sum = 0;
