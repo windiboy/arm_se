@@ -22,7 +22,7 @@ public:
     int size;
     deque<unsigned long long> mydeque;
     unsigned long long sum = 0;
-    MovingAverage(int size) {
+    void init(int size) {
         // do intialization if necessary
         this->size = size;
     }
@@ -69,9 +69,9 @@ int main(int argc, char** argv){
     ros::Subscriber cam_sub = n.subscribe("camera_point",1000,cameraCallback);
     ros::Rate loop_rate(50);
 
-    x_win.MovingAverage(10);
-    y_win.MovingAverage(10);
-    z_win.MovingAverage(10);
+    x_win.init(10);
+    y_win.init(10);
+    z_win.init(10);
 
     while (ros::ok()){
         ros::spinOnce();
