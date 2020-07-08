@@ -71,15 +71,15 @@ int main(int argc, char** argv){
     x_win.init(10);
     y_win.init(10);
     z_win.init(10);
-    int cout=0;
+    int temp=0;
 
     while (ros::ok()){
         ros::spinOnce();
-        cout = cout+1;
+        temp = temp+1;
 
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
 
-        if(object_pos[0]>0.55 || object_pos[0]<0.3 || cout<100){
+        if(object_pos[0]>0.55 || object_pos[0]<0.3 || temp<1000){
             cout<<"Too Far Or Too Close !!!!!!! "<<endl;
         } else{
 
