@@ -21,9 +21,8 @@ public:
     */
     int size;
     deque<unsigned long long> mydeque;
-    unsigned long long sum = 0;
+    double sum = 0;
     void init(int size) {
-        // do intialization if necessary
         this->size = size;
     }
 
@@ -31,7 +30,7 @@ public:
      * @param val: An integer
      * @return:
      */
-    double next(int val)
+    double next(double val)
     {
         // write your code here
         if(mydeque.size() < size)
@@ -76,10 +75,10 @@ int main(int argc, char** argv){
     while (ros::ok()){
         ros::spinOnce();
 
-        object_pos[0]=object_pos[0]-0.1;
+//        object_pos[0]=object_pos[0]-0.1;
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
 
-        if(object_pos[0]>0.55 && object_pos[0]<0.3){
+        if(object_pos[0]>0.55 || object_pos[0]<0.3){
             cout<<"Too Far Or Too Close !!!!!!! "<<endl;
         } else{
 
