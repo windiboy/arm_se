@@ -20,7 +20,7 @@ public:
     * @param size: An integer
     */
     int size;
-    deque<unsigned long long> mydeque;
+    deque<double> mydeque;
     double sum = 0;
     void init(int size) {
         this->size = size;
@@ -33,7 +33,7 @@ public:
     double next(double val)
     {
         // write your code here
-        if(mydeque.size() < size)
+        if(mydeque.size() <= size)
         {
             mydeque.push_back(val);
             sum += val;
