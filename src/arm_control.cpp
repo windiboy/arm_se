@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     arm.write_angle(ready_pos);
 
     sleep(2);
-    arm.write_pos(0.5,0,0,1,0.9);
+    arm.write_pos(0.4,0,0,1,0.9);
 
 //    ros::spin();
     while (ros::ok())
