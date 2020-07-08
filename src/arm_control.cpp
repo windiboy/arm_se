@@ -10,7 +10,7 @@ ArmDriver arm;
 
 void controlCallback(const arm_se::ArmControl::ConstPtr& msg){
     arm.write_pos(msg->target_x,msg->target_y,msg->rotation,msg->gripper,msg->platform);
-    std::cout <<"( "<<msg->target_x <<"," << msg->target_y <<")" << std::endl;
+//    std::cout <<"( "<<msg->target_x <<"," << msg->target_y <<")" << std::endl;
 //    ROS_INFO("hello");
 
 }

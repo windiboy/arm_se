@@ -71,13 +71,15 @@ int main(int argc, char** argv){
     x_win.init(10);
     y_win.init(10);
     z_win.init(10);
+    int cout=0;
 
     while (ros::ok()){
         ros::spinOnce();
+        cout = cout+1;
 
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
 
-        if(object_pos[0]>0.55 || object_pos[0]<0.3){
+        if(object_pos[0]>0.55 || object_pos[0]<0.3 || cout<100){
             cout<<"Too Far Or Too Close !!!!!!! "<<endl;
         } else{
 
@@ -85,17 +87,25 @@ int main(int argc, char** argv){
             arm_msg.target_y = 0;
             arm_msg.rotation = 0;
             arm_msg.gripper = 1;
-            arm_msg.platform = object_pos[1];
+            arm_msg.platform = object_pos[1]-0.05;
             arm_pub.publish(arm_msg);
             cout<<"####### Try Pick ####### "<<endl;
-
-//            sleep(2);
-//            arm_msg.target_x = object_pos[0];
-//            arm_msg.target_y = 0;
-//            arm_msg.rotation = 0;
-//            arm_msg.gripper = 0;
-//            arm_msg.platform = object_pos[1]+0.1;
-//            arm_pub.publish(arm_msg);
+            sleep(3);
+            arm_msg.target_x = object_pos[0];
+            arm_msg.target_y = 0;
+            arm_msg.rotation = 0;
+            arm_msg.gripper = 0.3;
+            arm_msg.platform = object_pos[1]-0.05;
+            arm_pub.publish(arm_msg);
+            sleep(3);
+            arm_msg.target_x = object_pos[0];
+            arm_msg.target_y = 0;
+            arm_msg.rotation = 0;
+            arm_msg.gripper = 0.3;
+            arm_msg.platform = object_pos[1]+0.1;
+            arm_pub.publish(arm_msg);
+            sleep(3);
+            ros::shutdown();
         }
 
         loop_rate.sleep();
