@@ -12,11 +12,33 @@ arm_se::ArmControl arm_msg;
 geometry_msgs::Twist zoo_msg;
 float object_pos[3];
 
+public class MovingAverage {
+private final int maxSize;
+private final Queue<Integer> window;
+private long sum = 0;
+
+public MovingAverage(int maxSize) {
+        this.maxSize = maxSize;
+        this.window = new ArrayDeque<>(maxSize + 1);
+    }
+
+public double next(int val) {
+        window.add(val);
+        sum += val;
+        if (window.size() > maxSize) {
+            sum -= window.poll();
+        }
+        return (double) sum / window.size();
+    }
+}
+MovingAverage x_win = new MovingAverage(10);
+MovingAverage y_win = new MovingAverage(10);
+MovingAverage y_win = new MovingAverage(10);
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
-    object_pos[0] = msg->x;
-    object_pos[1] = msg->y;
-    object_pos[2] = msg->z;
+    object_pos[0] = x_win.next(msg->x);
+    object_pos[1] = y_win.next(msg->y);
+    object_pos[2] = z_win.next(msg->z);
 //    ROS_INFO("hello");
 
 }
@@ -35,7 +57,7 @@ int main(int argc, char** argv){
         ros::spinOnce();
 
         object_pos[0]=object_pos[0]-0.1;
-        cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
+        cout<<"Object position In Robot Coordinate "<<"( "<<x.next(object_pos[0]) <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
 
         if(object_pos[0]>0.55 && object_pos[0]<0.3){
             cout<<"Too Far Or Too Close !!!!!!! "<<endl;
@@ -46,10 +68,9 @@ int main(int argc, char** argv){
             arm_msg.rotation = 0;
             arm_msg.gripper = 1;
             arm_msg.platform = object_pos[1];
-            arm_pub.publish(arm_msg);
+//            arm_pub.publish(arm_msg);
 
-            sleep(2);
-
+//            sleep(2);
 //            arm_msg.target_x = object_pos[0];
 //            arm_msg.target_y = 0;
 //            arm_msg.rotation = 0;
