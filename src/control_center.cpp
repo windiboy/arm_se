@@ -51,9 +51,7 @@ public:
 };
 
 MovingAverage x_win,y_win,z_win;
-x_win.MovingAverage(10);
-y_win.MovingAverage(10);
-z_win.MovingAverage(10);
+
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
     object_pos[0] = x_win.next(msg->x);
@@ -71,7 +69,9 @@ int main(int argc, char** argv){
     ros::Subscriber cam_sub = n.subscribe("camera_point",1000,cameraCallback);
     ros::Rate loop_rate(50);
 
-
+    x_win.MovingAverage(10);
+    y_win.MovingAverage(10);
+    z_win.MovingAverage(10);
 
     while (ros::ok()){
         ros::spinOnce();
