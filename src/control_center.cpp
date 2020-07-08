@@ -50,9 +50,10 @@ public:
     }
 };
 
-MovingAverage x_win = x_win.MovingAverage(10);
-MovingAverage y_win = y_win.MovingAverage(10);
-MovingAverage z_win = x_win.MovingAverage(10);
+MovingAverage x_win,y_win,z_win;
+x_win.MovingAverage(10);
+y_win.MovingAverage(10);
+z_win.MovingAverage(10);
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
     object_pos[0] = x_win.next(msg->x);
