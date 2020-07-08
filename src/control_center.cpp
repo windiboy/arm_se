@@ -79,7 +79,7 @@ int main(int argc, char** argv){
 
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
 
-        if(object_pos[0]>0.55 || object_pos[0]<0.3 || temp<1000){
+        if(object_pos[0]>0.55 || object_pos[0]<0.3 || temp<200){
             cout<<"Too Far Or Too Close !!!!!!! "<<endl;
         } else{
 
