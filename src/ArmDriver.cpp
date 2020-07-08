@@ -61,11 +61,11 @@ int ArmDriver::read_pos() {
 int ArmDriver::write_angle(double *target) {
     int pos[5];
 
-    if(!(target[0]>=-PI/2 && target[0]<=PI/2 &&
-         target[1]>=-PI*3/2 && target[1]<=PI*3/2 &&
-         target[2]>=-PI && target[2]<=PI &&
-         target[3]>=0 && target[3]<=1 &&
-         target[4]>=0 && target[4]<=0.25)){
+    if(!((target[0]>=-1*PI/2) && (target[0]<=PI/2) &&
+         (target[1]>=-1*PI*3/2) && (target[1]<=PI*3/2) &&
+         (target[2]>=-PI) && (target[2]<=PI) &&
+         (target[3]>=0) && (target[3]<=1) &&
+         (target[4]>=0) && (target[4]<=0.25))){
         std::cout << "############### out of range! ###############" <<std::endl;
         return -1;
     }
