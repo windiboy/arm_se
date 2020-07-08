@@ -65,7 +65,7 @@ int ArmDriver::write_angle(double *target) {
          (target[1]>=-1*PI*3/2) && (target[1]<=PI*3/2) &&
          (target[2]>=-PI) && (target[2]<=PI) &&
          (target[3]>=0) && (target[3]<=1) &&
-         (target[4]>=0) && (target[4]<=0.25))){
+         (target[4]>=0.1) && (target[4]<=0.4))){
         std::cout << "############### out of range! ###############" <<std::endl;
         return -1;
     }
@@ -86,7 +86,7 @@ int ArmDriver::write_angle(double *target) {
     motor.setPos(id[3], pos[3]);
     motor.mSleep(10);
 
-    pos[4] = target[4]*-262144*500/0.25;
+    pos[4] = target[4]*-262144*800/0.4;
 //    std::cout << "target pos: " << pos[4] << std::endl;
     motor.setPos(10, pos[4]);
     motor.mSleep(10);

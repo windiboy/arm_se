@@ -45,7 +45,7 @@ int main(int argc, char** argv){
             arm_msg.target_y = 0;
             arm_msg.rotation = 0;
             arm_msg.gripper = 1;
-            arm_msg.platform = object_pos[1]+0.1;
+            arm_msg.platform = object_pos[1];
             arm_pub.publish(arm_msg);
 
             sleep(2);

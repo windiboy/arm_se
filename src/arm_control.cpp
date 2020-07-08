@@ -29,9 +29,6 @@ int main(int argc, char** argv)
     double ready_pos[5]={-PI/2,PI*115/180,0,1,0.2};
     arm.write_angle(ready_pos);
 
-    sleep(2);
-    arm.write_pos(0.4,0,0,1,0.9);
-
 //    ros::spin();
     while (ros::ok())
     {
