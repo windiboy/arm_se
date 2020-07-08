@@ -5,7 +5,7 @@
 #include <iostream>
 #include "math.h"
 #include <unistd.h>
-#include <queue>
+#include <deque>
 
 using namespace std;
 
@@ -13,28 +13,46 @@ arm_se::ArmControl arm_msg;
 geometry_msgs::Twist zoo_msg;
 float object_pos[3];
 
+
 class MovingAverage {
-private int maxSize;
-private Queue<Integer> window;
-private long sum = 0;
-
-public MovingAverage(int maxSize) {
-        this.maxSize = maxSize;
-        this.window = new ArrayDeque<>(maxSize + 1);
+public:
+    /*
+    * @param size: An integer
+    */
+    int size;
+    deque<unsigned long long> mydeque;
+    unsigned long long sum = 0;
+    MovingAverage(int size) {
+        // do intialization if necessary
+        this->size = size;
     }
 
-public double next(int val) {
-        window.add(val);
-        sum += val;
-        if (window.size() > maxSize) {
-            sum -= window.poll();
+    /*
+     * @param val: An integer
+     * @return:
+     */
+    double next(int val)
+    {
+        // write your code here
+        if(mydeque.size() < size)
+        {
+            mydeque.push_back(val);
+            sum += val;
         }
-        return (double) sum / window.size();
+        else
+        {
+            sum -= mydeque.front();
+            sum += val;
+            mydeque.pop_front();
+            mydeque.push_back(val);
+        }
+        return (sum*1.0) / mydeque.size();
     }
-}
+};
+
 MovingAverage x_win = new MovingAverage(10);
 MovingAverage y_win = new MovingAverage(10);
-MovingAverage y_win = new MovingAverage(10);
+MovingAverage z_win = new MovingAverage(10);
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
     object_pos[0] = x_win.next(msg->x);
