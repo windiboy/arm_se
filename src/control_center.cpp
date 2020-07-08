@@ -5,6 +5,7 @@
 #include <iostream>
 #include "math.h"
 #include <unistd.h>
+#include <queue>
 
 using namespace std;
 
@@ -13,8 +14,8 @@ geometry_msgs::Twist zoo_msg;
 float object_pos[3];
 
 class MovingAverage {
-private final int maxSize;
-private final Queue<Integer> window;
+private int maxSize;
+private Queue<Integer> window;
 private long sum = 0;
 
 public MovingAverage(int maxSize) {
