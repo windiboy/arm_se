@@ -35,6 +35,7 @@ public:
     int read_angle();
     int read_pos();
     int write_angle(double *target);
+    int write_platform_pos(double target);
     int write_pos(double target_x, double target_y, double rotation, double gripper, double platform);
     int interpolation(double start_x, double start_y, double end_x, double end_y, int points, double rotation, double gripper, double platform);
 

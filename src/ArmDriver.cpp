@@ -54,9 +54,9 @@ int ArmDriver::read_angle() {
 int ArmDriver::read_pos() {
     ArmDriver::read_angle();
     ang2pos(&current_pos[0],&current_pos[1],current_angle[0],current_angle[1]);
-    for(int i=0;i<=2;i++) {
-        std::cout << i << "motor pos: " << current_pos[i] << std::endl;
-    }
+    // for(int i=0;i<=2;i++) {
+    //     std::cout << i << "motor pos: " << current_pos[i] << std::endl;
+    // }
 }
 int ArmDriver::write_angle(double *target) {
     int pos[5];
@@ -65,7 +65,7 @@ int ArmDriver::write_angle(double *target) {
          (target[1]>=-1*PI*3/2) && (target[1]<=PI*3/2) &&
          (target[2]>=-PI) && (target[2]<=PI) &&
          (target[3]>=0) && (target[3]<=1) &&
-         (target[4]>=0.1) && (target[4]<=0.4))){
+         (target[4]>=0.05) && (target[4]<=0.4))){
         std::cout << "############### out of range! ###############" <<std::endl;
         return -1;
     }
@@ -91,6 +91,16 @@ int ArmDriver::write_angle(double *target) {
     motor.setPos(10, pos[4]);
     motor.mSleep(10);
 }
+int ArmDriver::write_platform_pos(double target) {
+    if(!((target >=0.05) && (target <=0.4))){
+        std::cout << "############### out of range! ###############" <<std::endl;
+        return -1;
+    }
+    int pos = target*-262144*800/0.4;
+//    std::cout << "target pos: " << pos[4] << std::endl;
+    motor.setPos(10, pos);
+    motor.mSleep(10);
+}
 int ArmDriver::write_pos(double target_x, double target_y, double rotation, double gripper, double platform) {
     double target[5];
     pos2ang(target_x,target_y, &target[0],&target[1]);
@@ -109,8 +119,8 @@ int ArmDriver::interpolation(double start_x, double start_y, double end_x, doubl
 
     double x_out = 0;
     double y_out = 0;
-    Gnuplot gp;
-    std::vector<std::pair<double, double> > data;
+    // Gnuplot gp;
+    // std::vector<std::pair<double, double> > data;
 
     cubicSpline spline;
     spline.loadData(x_data, y_data, POINTS_COUNT, 0, 0, cubicSpline::BoundType_First_Derivative);
