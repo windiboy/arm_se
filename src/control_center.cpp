@@ -12,14 +12,6 @@
 
 using namespace std;
 
-arm_se::ArmControl arm_msg;
-geometry_msgs::Twist zoo_msg;
-double object_pos[3];
-double zoo_pos[3];//x y yaw
-MovingAverage x_win,y_win,z_win;
-std_msgs::String audio_cmd;
-
-
 class MovingAverage {
 public:
     /*
@@ -54,6 +46,13 @@ public:
         return (sum*1.0) / mydeque.size();
     }
 };
+
+arm_se::ArmControl arm_msg;
+geometry_msgs::Twist zoo_msg;
+double object_pos[3];
+double zoo_pos[3];//x y yaw
+MovingAverage x_win,y_win,z_win;
+std_msgs::String audio_cmd;
 
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
     object_pos[0] = x_win.next(msg->x)-0.15;
