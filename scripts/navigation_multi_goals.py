@@ -83,7 +83,8 @@ class navigation_demo:
 if __name__ == "__main__":
     rospy.init_node('navigation_demo', anonymous=True)
     navi = navigation_demo()
-    r = rospy.rate(1)
+    r = rospy.Rate(1)
+    rospy.set_param('slam_cmd', "wait")
     while not rospy.is_shutdown():
         if rospy.get_param('slam_cmd') == "start":
             navi.goto([1, 0, 0])

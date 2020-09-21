@@ -35,7 +35,7 @@ if __name__ == '__main__':
     while not rospy.is_shutdown():
         text = voice_controller.respeaker_audio.record()
         if text.find("办公室") >= 0 and isPub is not True:
-            rospy.set_param('slam_cmd', 'start')
+            rospy.set_param('slam_cmd', "start")
             break
         # direction = voice_controller.respeaker_interface.direction
         print(text)
