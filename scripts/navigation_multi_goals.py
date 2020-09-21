@@ -95,4 +95,3 @@ if __name__ == "__main__":
             navi.goto([1, 0, 0])
             break
         r.sleep()
-

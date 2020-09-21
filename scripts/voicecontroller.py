@@ -38,11 +38,9 @@ if __name__ == '__main__':
     isPub = False
     while not rospy.is_shutdown():
         text = voice_controller.respeaker_audio.record()
-        if text.find("开始导航") >= 0 and isPub is not True:
+        if text.find("办公室") >= 0 and isPub is not True:
             audio.publish("start")
-            isPub = True
-        if text.find("抓") >= 0:
-            print("send liwei to auto_face")
+            break
         # direction = voice_controller.respeaker_interface.direction
         print(text)
         # print(direction)
