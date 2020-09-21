@@ -25,13 +25,9 @@ class VoiceController(object):
         self.respeaker_audio.stop()
 
 
-def callback(msg):
-    os.system("mpg123 /home/bcsh/robot_ws/src/match_mini/voice/zhuabu.mp3")
-
-
 if __name__ == '__main__':
     voice_controller = VoiceController("voice_controller")
-    audio = rospy.Publisher('audio', String, queue_size=10)  # 话题的名称chatter
+    # audio = rospy.Publisher('audio', String, queue_size=10)  # 话题的名称chatter
     # rospy.Subscriber("get_pos", String,callback, queue_size=10)
     rate = rospy.Rate(100)
 
@@ -39,7 +35,7 @@ if __name__ == '__main__':
     while not rospy.is_shutdown():
         text = voice_controller.respeaker_audio.record()
         if text.find("办公室") >= 0 and isPub is not True:
-            audio.publish("start")
+            rospy.set_param('slam_cmd', 'start')
             break
         # direction = voice_controller.respeaker_interface.direction
         print(text)
