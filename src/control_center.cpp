@@ -74,7 +74,7 @@ public:
     }
     bool zooMove()
     {
-        double front = 0.6;//0.55
+        double front = 0.58;//0.55
         double rear = 0.45;
 
         if(object_pos[0]>front)
