@@ -35,6 +35,7 @@ if __name__ == '__main__':
         text = voice_controller.respeaker_audio.record()
         if text.find("办公室") >= 0 and isPub is not True:
             rospy.set_param('command', "start")
+            break
         if text.find("抓") >= 0:
             rospy.set_param('command', "pitch")
         # direction = voice_controller.respeaker_interface.direction

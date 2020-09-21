@@ -74,7 +74,7 @@ public:
     }
     bool zooMove()
     {
-        double front = 0.55;
+        double front = 0.6;//0.55
         double rear = 0.45;
 
         if(object_pos[0]>front)
@@ -168,9 +168,9 @@ int main(int argc, char** argv){
 
     while (ros::ok()){
         ros::spinOnce();
-        cout<<"Object position In Robot Coordinate "<<"( "<<center.object_pos[0] <<"," << center.object_pos[1] <<"," << center.object_pos[2] <<" )"<<endl;
-        cout<<"Zoo position"<<"( "<<center.zoo_pos[0] <<"," << center.zoo_pos[1] <<"," << center.zoo_pos[2] <<" )"<<endl;
-        cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
+//        cout<<"Object position In Robot Coordinate "<<"( "<<center.object_pos[0] <<"," << center.object_pos[1] <<"," << center.object_pos[2] <<" )"<<endl;
+//        cout<<"Zoo position"<<"( "<<center.zoo_pos[0] <<"," << center.zoo_pos[1] <<"," << center.zoo_pos[2] <<" )"<<endl;
+//        cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
         n.getParam("command",command);
         if(command =="pitch")
             center.tryPick(arm_pub,zoo_pub);
