@@ -88,10 +88,10 @@ def audioCallback(msg):
 if __name__ == "__main__":
     rospy.init_node('navigation_demo', anonymous=True)
     navi = navigation_demo()
-    rospy.subscribe("audio", 1000, audioCallback)
+    rospy.Subscribe("audio", 1000, audioCallback)
     r = rospy.rate(1)
     while not rospy.is_shutdown():
-        if rospy.get_param('slam_cmd'):
+        if rospy.get_param('slam_cmd') == "first":
             navi.goto([1, 0, 0])
             break
         r.sleep()
