@@ -140,7 +140,7 @@ public:
             arm_msg.platform = 0.3;
             arm_pub.publish(arm_msg);
             sleep(3);
-            ros::param::set("command","wait");
+            ros::param::set("command","back");
         }
     }
     double object_pos[3];

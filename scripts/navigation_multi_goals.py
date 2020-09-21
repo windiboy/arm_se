@@ -89,6 +89,8 @@ if __name__ == "__main__":
     rospy.set_param('command', "wait")
     while not rospy.is_shutdown():
         if rospy.get_param('command') == "start":
-            navi.goto([1, 0, 0])
+            navi.goto([1, 0.3, 0])
+        if rospy.get_param('command') == "back":
+            navi.goto([0., 0., 0])
             break
         r.sleep()
