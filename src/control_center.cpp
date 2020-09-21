@@ -12,6 +12,13 @@
 
 using namespace std;
 
+arm_se::ArmControl arm_msg;
+geometry_msgs::Twist zoo_msg;
+double object_pos[3];
+double zoo_pos[3];//x y yaw
+MovingAverage x_win,y_win,z_win;
+std_msgs::String audio_cmd;
+
 class MovingAverage {
 public:
     /*
@@ -47,13 +54,6 @@ public:
     }
 };
 
-arm_se::ArmControl arm_msg;
-geometry_msgs::Twist zoo_msg;
-double object_pos[3];
-double zoo_pos[3];//x y yaw
-MovingAverage x_win,y_win,z_win;
-std_msgs::String audio_cmd;
-
 void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
     object_pos[0] = x_win.next(msg->x)-0.15;
     object_pos[1] = y_win.next(msg->y);
@@ -64,7 +64,6 @@ void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
 void audioCallback(const std_msgs::String::ConstPtr& msg){
     audio_cmd = msg->data;
     ROS_INFO(audio_cmd);
-
 }
 void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
     zoo_pos[0] = msg->pose.pose.position.x;
@@ -79,8 +78,8 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
 
 }
 bool zooMove();
-void tryPick(const ros::Subscriber arm_pub, const ros::Subscriber zoo_pub){
-    if(zooMove() || temp<100){
+void tryPick(const ros::Subscriber arm_pub, const ros::Publisher zoo_pub){
+    if(zooMove()){
         zoo_pub.publish(zoo_msg);
         cout<<"Zoo Moving !!!!!!! "<<endl;
     } else{
