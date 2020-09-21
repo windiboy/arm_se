@@ -155,6 +155,7 @@ private:
 int main(int argc, char** argv){
     ros::init(argc, argv, "control_center");
     ros::NodeHandle n;
+    string command;
 
     ControlCenter center;
     ros::Publisher arm_pub = n.advertise<arm_se::ArmControl>("arm_control", 50);
@@ -169,7 +170,8 @@ int main(int argc, char** argv){
         cout<<"Object position In Robot Coordinate "<<"( "<<center.object_pos[0] <<"," << center.object_pos[1] <<"," << center.object_pos[2] <<" )"<<endl;
         cout<<"Zoo position"<<"( "<<center.zoo_pos[0] <<"," << center.zoo_pos[1] <<"," << center.zoo_pos[2] <<" )"<<endl;
         cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
-        if(n.getParam("command")=="pitch")
+        n.getParam("command",command);
+        if(command =="pitch")
             center.tryPick(arm_pub,zoo_pub);
             n.setParam("command","wait");
 
