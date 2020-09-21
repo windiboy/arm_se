@@ -173,7 +173,7 @@ int main(int argc, char** argv){
         cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
         n.getParam("command",command);
         if(command =="pitch")
-            center.tryPick(arm_pub,zoo_pub)
+            center.tryPick(arm_pub,zoo_pub);
         loop_rate.sleep();
     }
     return 0;
