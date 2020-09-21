@@ -139,7 +139,7 @@ int main(int argc, char** argv){
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
         cout<<"Zoo position"<<"( "<<zoo_pos[0] <<"," << zoo_pos[1] <<"," << zoo_pos[2] <<" )"<<endl;
         cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
-        cout<<"Audio command:"<< audio_cmd << endl;
+        cout<<"Audio commasdfsdnd:"<< audio_cmd << endl;
 
         loop_rate.sleep();
     }
