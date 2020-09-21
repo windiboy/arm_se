@@ -73,6 +73,8 @@ class navigation_demo:
             state = self.move_base.get_state()
             if state == GoalStatus.SUCCEEDED:
                 rospy.loginfo("reach goal %s succeeded!"%p)
+                rospy.set_param("command", "pitch")
+                rospy.loginfo("next step pitching")
         return True
 
     def cancel(self):
