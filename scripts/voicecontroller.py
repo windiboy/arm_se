@@ -16,12 +16,12 @@ class VoiceController(object):
         self.node_name = node_name
         rospy.init_node(node_name)
         rospy.on_shutdown(self.shutdown)
-        self.respeaker_interface = RespeakerInterface()
+        # self.respeaker_interface = RespeakerInterface()
         self.respeaker_audio = RespeakerAudio()
-        self.ask_pub = rospy.Publisher('cmd_msg', String, queue_size=5)
+        # self.ask_pub = rospy.Publisher('cmd_msg', String, queue_size=5)
 
     def shutdown(self):
-        self.respeaker_interface.close()
+        # self.respeaker_interface.close()
         self.respeaker_audio.stop()
 
 
@@ -32,7 +32,7 @@ def callback(msg):
 if __name__ == '__main__':
     voice_controller = VoiceController("voice_controller")
     audio = rospy.Publisher('audio', String, queue_size=10)  # 话题的名称chatter
-    rospy.Subscriber("get_pos", String,callback, queue_size=10)
+    # rospy.Subscriber("get_pos", String,callback, queue_size=10)
     rate = rospy.Rate(100)
 
     isPub = False
@@ -43,9 +43,9 @@ if __name__ == '__main__':
             isPub = True
         if text.find("抓") >= 0:
             print("send liwei to auto_face")
-        direction = voice_controller.respeaker_interface.direction
+        # direction = voice_controller.respeaker_interface.direction
         print(text)
-        print(direction)
+        # print(direction)
         rate.sleep()
 
 
