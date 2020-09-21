@@ -17,7 +17,7 @@ geometry_msgs::Twist zoo_msg;
 double object_pos[3];
 double zoo_pos[3];//x y yaw
 MovingAverage x_win,y_win,z_win;
-std_msgs::String audio_data;
+std_msgs::String audio_cmd;
 
 
 class MovingAverage {
@@ -63,8 +63,8 @@ void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
 
 }
 void audioCallback(const std_msgs::String::ConstPtr& msg){
-    audio_data = msg->data;
-    ROS_INFO(audio_data);
+    audio_cmd = msg->data;
+    ROS_INFO(audio_cmd);
 
 }
 void odomCallback(const nav_msgs::Odometry::ConstPtr& msg){
@@ -127,7 +127,7 @@ int main(int argc, char** argv){
     ros::Publisher zoo_pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 50);
     ros::Subscriber cam_sub = n.subscribe("camera_point",1000,cameraCallback);
     ros::Subscriber odom_sub = n.subscribe("odom",1000,odomCallback);
-    ros::Subscriber audio_sub = n.subscribe("audio_oub",1000,audioCallback);
+    ros::Subscriber audio_sub = n.subscribe("audio",1000,audioCallback);
     ros::Rate loop_rate(50);
 
     x_win.init(10);
@@ -140,8 +140,7 @@ int main(int argc, char** argv){
         cout<<"Object position In Robot Coordinate "<<"( "<<object_pos[0] <<"," << object_pos[1] <<"," << object_pos[2] <<" )"<<endl;
         cout<<"Zoo position"<<"( "<<zoo_pos[0] <<"," << zoo_pos[1] <<"," << zoo_pos[2] <<" )"<<endl;
         cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
-
-        cout<<"Audio data:"<< audio_data << endl;
+        cout<<"Audio command:"<< audio_cmd << endl;
 
         loop_rate.sleep();
     }

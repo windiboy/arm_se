@@ -1,4 +1,5 @@
-#coding = UTF-8
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import subprocess
 import audioop
 import rospy

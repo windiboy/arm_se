@@ -4,6 +4,8 @@ from std_msgs.msg import String
 
 def callback(data):
     rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
+    if("办公室" in data.data):
+        print("heared!!!")
 
 def listener():
 
