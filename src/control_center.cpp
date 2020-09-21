@@ -103,7 +103,7 @@ public:
         return true;
     }
 
-    void tryPick(const ros::Publisher arm_pub, const ros::Publisher zoo_pub){
+    void tryPick(const ros::Publisher &arm_pub, const ros::Publisher &zoo_pub){
         if(zooMove()){
             zoo_pub.publish(zoo_msg);
             cout<<"Zoo Moving !!!!!!! "<<endl;
@@ -169,7 +169,9 @@ int main(int argc, char** argv){
         cout<<"Object position In Robot Coordinate "<<"( "<<center.object_pos[0] <<"," << center.object_pos[1] <<"," << center.object_pos[2] <<" )"<<endl;
         cout<<"Zoo position"<<"( "<<center.zoo_pos[0] <<"," << center.zoo_pos[1] <<"," << center.zoo_pos[2] <<" )"<<endl;
         cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
-
+        if(n.getParam("command")=="pitch")
+            center.tryPick(arm_pub,zoo_pub);
+            n.setParam("command","wait");
 
         loop_rate.sleep();
     }

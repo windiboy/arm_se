@@ -6,7 +6,6 @@ sys.setdefaultencoding('utf8')
 import os
 import rospy
 
-from respeaker_interface import RespeakerInterface
 from respeaker_audio import RespeakerAudio
 from std_msgs.msg import String
 
@@ -35,8 +34,9 @@ if __name__ == '__main__':
     while not rospy.is_shutdown():
         text = voice_controller.respeaker_audio.record()
         if text.find("办公室") >= 0 and isPub is not True:
-            rospy.set_param('slam_cmd', "start")
-            break
+            rospy.set_param('command', "start")
+        if text.find("抓") >= 0:
+            rospy.set_param('command', "pitch")
         # direction = voice_controller.respeaker_interface.direction
         print(text)
         # print(direction)
