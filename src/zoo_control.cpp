@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "../include/WzSerialPort.h"
 using namespace std;
 WzSerialPort w;
@@ -47,9 +48,15 @@ int zoo_disable(char id = 0x0C) {
 int main(int argc, char **argv){
     w.open("/dev/zoo", 115200, 'N', 8, 1);
     if(argv[1] == "enable")
-        zoo_enable();
+        if(zoo_enable())
+            cout << "enable success!!" << endl;
+        else
+            cout << "enable fail!!" << endl;
     else{
-        zoo_disable();
+        if(zoo_disable())
+            cout << "disable success!!" << endl;
+        else
+            cout << "disable fail!!" << endl;
     }
     return 0;
 }
