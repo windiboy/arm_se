@@ -73,8 +73,7 @@ class navigation_demo:
             state = self.move_base.get_state()
             if state == GoalStatus.SUCCEEDED:
                 rospy.loginfo("reach goal %s succeeded!"%p)
-                rospy.set_param("command", "pitch")
-                rospy.loginfo("next step pitching")
+
         return True
 
     def cancel(self):
@@ -87,9 +86,24 @@ if __name__ == "__main__":
     navi = navigation_demo()
     r = rospy.Rate(1)
     rospy.set_param('command', "wait")
+    plists = []
+    qlists = []
+    plists.append([3.099, 1.203, 0])
+    qlists.append([0.001, -0.006, 0.057, 0.998])
+    plists.append([4.067, 1.277, 0])
+    qlists.append([-0.003, -0.012, 0.047, 0.999])
+    plists.append([4.232, -2.407, 0])
+    qlists.append([0.006, -0.001, 0.973, -0.232])
+    plists.append([3.354, -2.641, 0])
+    qlists.append([0.012, 0.008, 0.984, -0.176])
+    plists.append([0.648, -3.613, 0])
+    qlists.append([-0.007, 0.006, 0.995, -0.096])
     while not rospy.is_shutdown():
         if rospy.get_param('command') == "start":
-            navi.goto([0.648, -3.613, 0], [-0.007, 0.006, 0.995, -0.096])
+            for p, q in plists, qlists:
+                navi.goto(p,q)
+            rospy.set_param("command", "pitch")
+            rospy.loginfo("next step pitching")
         if rospy.get_param('command') == "back":
             navi.goto([0., 0., 0], [0, 0, 0, 0])
             break
