@@ -6,10 +6,9 @@ WzSerialPort w;
 
 char check(unsigned char *data, int len) {
     uchar result = 0x00;
-    for(int i = 2; i < len - 1; i++){
+    for(int i = 0; i < len - 1; i++){
         result += data[i];
     }
-    result = ~result;
     return result;
 
 }
