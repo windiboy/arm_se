@@ -134,6 +134,10 @@ add_executable(main src/main.cpp)
 target_link_libraries(main ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics cubicSpline)
 add_dependencies(main ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+add_executable(zoo_control src/zoo_control.cpp)
+target_link_libraries(zoo_control ${catkin_LIBRARIES} WzSerialPort)
+add_dependencies(zoo_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 add_executable(arm_control src/arm_control.cpp)
 target_link_libraries(arm_control ${catkin_LIBRARIES} WzSerialPort MotorDriver Kinematics cubicSpline ArmDriver)
 add_dependencies(arm_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
