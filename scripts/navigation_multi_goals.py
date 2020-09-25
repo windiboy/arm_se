@@ -48,7 +48,7 @@ class navigation_demo:
     def _feedback_cb(self, feedback):
         rospy.loginfo("[Navi] navigation feedback\r\n%s"%feedback)
 
-    def goto(self, p, q):
+    def goto(self, p):
         rospy.loginfo("[Navi] goto %s"%p)
         arrive_str = "going to next point"
         self.arrive_pub.publish(arrive_str)
@@ -58,11 +58,12 @@ class navigation_demo:
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = p[0]
         goal.target_pose.pose.position.y = p[1]
+        goal.target_pose.pose.position.z = p[2]
         # q = transformations.quaternion_from_euler(0.0, 0.0, p[2]/180.0*pi)
-        goal.target_pose.pose.orientation.x = q[0]
-        goal.target_pose.pose.orientation.y = q[1]
-        goal.target_pose.pose.orientation.z = q[2]
-        goal.target_pose.pose.orientation.w = q[3]
+        goal.target_pose.pose.orientation.x = p[3]
+        goal.target_pose.pose.orientation.y = p[4]
+        goal.target_pose.pose.orientation.z = p[5]
+        goal.target_pose.pose.orientation.w = p[6]
 
         self.move_base.send_goal(goal, self._done_cb, self._active_cb, self._feedback_cb)
         result = self.move_base.wait_for_result(rospy.Duration(60))
@@ -87,24 +88,18 @@ if __name__ == "__main__":
     r = rospy.Rate(1)
     rospy.set_param('command', "wait")
     plists = []
-    qlists = []
-    plists.append([3.099, 1.203, 0])
-    qlists.append([0.001, -0.006, 0.057, 0.998])
-    plists.append([4.067, 1.277, 0])
-    qlists.append([-0.003, -0.012, 0.047, 0.999])
-    plists.append([4.232, -2.407, 0])
-    qlists.append([0.006, -0.001, 0.973, -0.232])
-    plists.append([3.354, -2.641, 0])
-    qlists.append([0.012, 0.008, 0.984, -0.176])
-    plists.append([0.648, -3.613, 0])
-    qlists.append([-0.007, 0.006, 0.995, -0.096])
+    plists.append([3.099, 1.203, 0, 0.001, -0.006, 0.057, 0.998])
+    plists.append([4.067, 1.277, 0, -0.003, -0.012, 0.047, 0.999])
+    plists.append([4.232, -2.407, 0, 0.006, -0.001, 0.973, -0.232])
+    plists.append([3.354, -2.641, 0, 0.012, 0.008, 0.984, -0.176])
+    plists.append([0.648, -3.613, 0, -0.007, 0.006, 0.995, -0.096])
     while not rospy.is_shutdown():
         if rospy.get_param('command') == "start":
-            for p, q in plists, qlists:
-                navi.goto(p,q)
+            for p in plists:
+                navi.goto(p)
             rospy.set_param("command", "pitch")
             rospy.loginfo("next step pitching")
         if rospy.get_param('command') == "back":
-            navi.goto([0., 0., 0], [0, 0, 0, 0])
+            navi.goto([0., 0., 0, 0, 0, 0, 1])
             break
         r.sleep()
