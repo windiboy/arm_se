@@ -48,7 +48,7 @@ class navigation_demo:
     def _feedback_cb(self, feedback):
         rospy.loginfo("[Navi] navigation feedback\r\n%s"%feedback)
 
-    def goto(self, p):
+    def goto(self, p, q):
         rospy.loginfo("[Navi] goto %s"%p)
         arrive_str = "going to next point"
         self.arrive_pub.publish(arrive_str)
@@ -58,7 +58,7 @@ class navigation_demo:
         goal.target_pose.header.stamp = rospy.Time.now()
         goal.target_pose.pose.position.x = p[0]
         goal.target_pose.pose.position.y = p[1]
-        q = transformations.quaternion_from_euler(0.0, 0.0, p[2]/180.0*pi)
+        # q = transformations.quaternion_from_euler(0.0, 0.0, p[2]/180.0*pi)
         goal.target_pose.pose.orientation.x = q[0]
         goal.target_pose.pose.orientation.y = q[1]
         goal.target_pose.pose.orientation.z = q[2]
@@ -89,8 +89,8 @@ if __name__ == "__main__":
     rospy.set_param('command', "wait")
     while not rospy.is_shutdown():
         if rospy.get_param('command') == "start":
-            navi.goto([1, 0.3, 0])
+            navi.goto([0.648, -3.613, 0], [-0.007, 0.006, 0.995, -0.096])
         if rospy.get_param('command') == "back":
-            navi.goto([0., 0., 0])
+            navi.goto([0., 0., 0], [0, 0, 0, 0])
             break
         r.sleep()
