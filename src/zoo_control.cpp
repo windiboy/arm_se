@@ -9,6 +9,7 @@ char check(unsigned char *data, int len) {
     for(int i = 0; i < len - 1; i++){
         result += data[i];
     }
+    cout << hex << int(result) << endl;
     return result;
 
 }
@@ -21,7 +22,7 @@ int zoo_enable(char id = 0x0C) {
     data[3] = 0x01;
     data[4] = 0x01;
     data[5] = 0x01;
-    data[7] = check(data, len);
+    data[6] = check(data, len);
     if(w.send(data, len))
         return 1;
     else
@@ -37,7 +38,7 @@ int zoo_disable(char id = 0x0C) {
     data[3] = 0x00;
     data[4] = 0x00;
     data[5] = 0x00;
-    data[7] = check(data, len);
+    data[6] = check(data, len);
     if(w.send(data, len))
         return 1;
     else
@@ -46,7 +47,7 @@ int zoo_disable(char id = 0x0C) {
 }
 int main(int argc, char **argv){
     w.open("/dev/zoo", 115200, 'N', 8, 1);
-    if(argv[1] == "enable")
+    if(argv[1])
         if(zoo_enable())
             cout << "enable success!!" << endl;
         else
