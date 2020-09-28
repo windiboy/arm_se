@@ -106,9 +106,7 @@ public:
     bool zooRotate(const ros::Publisher &zoo_pub, double angle){
         double temp = zoo_pos[2];
         while (zoo_pos[2] < temp + angle){
-            zoo_msg.linear.y = 0.0;
-            zoo_msg.linear.x = 0.0;
-            zoo_msg.linear.z = 1.0;
+            zoo_msg.angular.z = 1.0;
             zoo_pub.publish(zoo_msg);
         }
     }
