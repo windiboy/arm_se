@@ -3,6 +3,6 @@
     <node name="arm_se_voice" pkg="arm_se" type="voicecontroller.py" output="screen"/>
     <node name="arm_se_slam" pkg="arm_se" type="navigation_multi_goals.py" output="screen"/>
     <node name="arm_se_control_center" pkg="arm_se" type="control_center"/>
-    <node name="arm_se_speaker" pkg="arm_se" type="speaker" />
+    <node name="arm_se_speaker" pkg="arm_se" type="speaker.py" />
 <!--     <node name="arm_se_camera" pkg="d435_camera" type="camera" /> -->
 </launch>

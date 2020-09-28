@@ -5,6 +5,7 @@ import wave
 from tqdm import tqdm
 import time
 import rospy
+import os
 
 class Speaker_SE(object):
     def __init__(self):
@@ -40,14 +41,16 @@ if __name__ == "__main__":
     rospy.init_node('speaker_se', anonymous=True)
     speak = Speaker_SE()
     r = rospy.Rate(1)
+    dir = os.getcwd()
+    dir = dir[:len(dir)-7]
     while not rospy.is_shutdown():
         speak.cur_command = rospy.get_param("command")
         print("{}-{}".format(speak.pre_command,speak.cur_command))
         if speak.pre_command == "error" or speak.cur_command == "error":
-            speak.play_audio_callback("../audio/error.wav")
+            speak.play_audio_callback(dir+"/audio/error.wav")
         if speak.pre_command != speak.cur_command:
             try:
-                speak.play_audio_callback("../audio/"+speak.pre_command+"-"+speak.cur_command+".wav")
+                speak.play_audio_callback(dir+"/audio/"+speak.pre_command+"-"+speak.cur_command+".wav")
             except:
                 print("File doesn't exist!!!")
             speak.pre_command = speak.cur_command
