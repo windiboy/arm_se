@@ -88,11 +88,9 @@ if __name__ == "__main__":
     r = rospy.Rate(1)
     rospy.set_param('command', "wait")
     plists = []
-    plists.append([3.099, 1.203, 0, 0.001, -0.006, 0.057, 0.998])
-    plists.append([4.067, 1.277, 0, -0.003, -0.012, 0.047, 0.999])
-    plists.append([4.232, -2.407, 0, 0.006, -0.001, 0.973, -0.232])
-    plists.append([3.354, -2.641, 0, 0.012, 0.008, 0.984, -0.176])
-    plists.append([0.648, -3.613, 0, -0.007, 0.006, 0.995, -0.096])
+    plists.append([6.918, 1.723, 0, -0.006, 0.006, 0.658, 0.753])
+    backlists = []
+    backlists.append([0., 0., 0, 0, 0, 0, 1])
     while not rospy.is_shutdown():
         if rospy.get_param('command') == "start":
             for p in plists:
@@ -100,6 +98,7 @@ if __name__ == "__main__":
             rospy.set_param("command", "pitch")
             rospy.loginfo("next step pitching")
         if rospy.get_param('command') == "back":
-            navi.goto([0., 0., 0, 0, 0, 0, 1])
+            for p in backlists:
+                navi.goto(p)
             break
         r.sleep()
