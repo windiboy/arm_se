@@ -90,7 +90,9 @@ if __name__ == "__main__":
     plists = []
     plists.append([6.918, 1.723, 0, -0.006, 0.006, 0.658, 0.753])
     backlists = []
-    backlists.append([0., 0., 0, 0, 0, 0, 1])
+    backlists.append([6.198, 0.784, 0, 0, 0.004, 0.948, -0.317])
+    backlists.append([3.056, 0.592, 0, -0.001, 0.00, 0.999, -0.0464])
+    backlists.append([0.817, -0.819, 0, 0, 0.002, 0.969, 0.246])
     while not rospy.is_shutdown():
         if rospy.get_param('command') == "start":
             for p in plists:

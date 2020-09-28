@@ -1,6 +1,6 @@
 <launch>
     <node name="arm_se_arm" pkg="arm_se" type="arm_control" output="screen"/>
-    <node name="arm_se_zoo" pkg="arm_se" type="zoo_control" args="enable"/>
+<!--    <node name="arm_se_zoo" pkg="arm_se" type="zoo_control" args="enable"/>-->
     <node name="arm_se_voice" pkg="arm_se" type="voicecontroller.py" output="screen"/>
     <node name="arm_se_slam" pkg="arm_se" type="navigation_multi_goals.py" output="screen"/>
     <node name="arm_se_control_center" pkg="arm_se" type="control_center"/>
