@@ -103,7 +103,15 @@ public:
         // cout<<zoo_msg<<endl;
         return true;
     }
-
+    bool zooRotate(const ros::Publisher &zoo_pub, double angle){
+        double temp = zoo_pos[2];
+        while (zoo_pos[2] < temp + angle){
+            zoo_msg.linear.y = 0.0;
+            zoo_msg.linear.x = 0.0;
+            zoo_msg.linear.z = 1.0;
+            zoo_pub.publish(zoo_msg);
+        }
+    }
     void tryPick(const ros::Publisher &arm_pub, const ros::Publisher &zoo_pub){
         if(zooMove()){
             zoo_pub.publish(zoo_msg);
@@ -141,12 +149,6 @@ public:
             arm_msg.platform = 0.3;
             arm_pub.publish(arm_msg);
             sleep(3);
-
-            for(int i =0;i<100;i++){
-                zoo_msg.linear.x = -0.5;
-                zoo_pub.publish(zoo_msg);
-            }
-            ros::param::set("command","back");
         }
     }
     double object_pos[3];
@@ -178,8 +180,11 @@ int main(int argc, char** argv){
 //        cout<<"Zoo position"<<"( "<<center.zoo_pos[0] <<"," << center.zoo_pos[1] <<"," << center.zoo_pos[2] <<" )"<<endl;
 //        cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
         n.getParam("command",command);
-        if(command =="pitch")
-            center.tryPick(arm_pub,zoo_pub);
+        if(command =="pitch"){
+            //center.tryPick(arm_pub,zoo_pub);
+            center.zooRotate(zoo_pub,3.14);
+            ros::param::set("command","back");
+        }
         loop_rate.sleep();
     }
     return 0;
