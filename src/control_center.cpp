@@ -104,14 +104,15 @@ public:
         return true;
     }
     bool zooRotate(const ros::Publisher &zoo_pub, double angle){
-        double temp = zoo_pos[2];
-        while (zoo_pos[2] < temp + angle){
-            cout<<"Zoo Moving !!!!!!! "<<endl;
-            cout << "zoo angle" << zoo_pos[2] << endl;
-            cout << "target" << temp+angle << endl;
-            zoo_msg.angular.z = 1.0;
-            zoo_pub.publish(zoo_msg);
-        }
+        cout<<"Zoo Moving !!!!!!! "<<endl;
+        cout << "zoo angle:" << zoo_pos[2] << endl;
+        if(zoo_pos[2]> angle+0.1)
+            zoo_msg.angular.z = -0.2;
+        else if(zoo_pos[2]< angle-0.1)
+            zoo_msg.angular.z = 0.2;
+        else
+            ros::param::set("command","back");
+        zoo_pub.publish(zoo_msg);
     }
     void tryPick(const ros::Publisher &arm_pub, const ros::Publisher &zoo_pub){
         if(zooMove()){
@@ -150,6 +151,7 @@ public:
             arm_msg.platform = 0.3;
             arm_pub.publish(arm_msg);
             sleep(3);
+            ros::param::set("command","rotate");
         }
     }
     double object_pos[3];
@@ -182,10 +184,10 @@ int main(int argc, char** argv){
 //        cout<<"Arm position"<<"( "<<current_pos[0] <<"," << current_pos[1] <<" )"<<endl;
         n.getParam("command",command);
         if(command =="pitch"){
-            //center.tryPick(arm_pub,zoo_pub);
-            center.zooRotate(zoo_pub,3.14);
-            ros::param::set("command","back");
+            center.tryPick(arm_pub,zoo_pub);
         }
+        else if(command =="rotate")
+            center.zooRotate(zoo_pub,-1.57);
         loop_rate.sleep();
     }
     return 0;
