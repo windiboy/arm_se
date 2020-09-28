@@ -76,15 +76,16 @@ public:
     {
         double front = 0.58;//0.55
         double rear = 0.45;
+        double speed = 0.02;
 
         if(object_pos[0]>front)
-            zoo_msg.linear.x = 0.01;
+            zoo_msg.linear.x = speed;
         if(object_pos[0]<rear)
-            zoo_msg.linear.x = -0.01;
+            zoo_msg.linear.x = -1*speed;
         if(object_pos[2]>0.01)
-            zoo_msg.linear.y = -0.01;
+            zoo_msg.linear.y = -1*speed;
         if(object_pos[2]<-0.01)
-            zoo_msg.linear.y = 0.01;
+            zoo_msg.linear.y = speed;
         if(object_pos[2]>-0.01 && object_pos[2]<0.01)
         {
             zoo_msg.linear.y = 0.0;
@@ -141,9 +142,8 @@ public:
             arm_pub.publish(arm_msg);
             sleep(3);
 
-            for(int i =0;i<3;i++){
+            for(int i =0;i<100;i++){
                 zoo_msg.linear.x = -0.5;
-                sleep(0.5);
                 zoo_pub.publish(zoo_msg);
             }
             ros::param::set("command","back");
