@@ -151,6 +151,13 @@ public:
             arm_msg.platform = 0.3;
             arm_pub.publish(arm_msg);
             sleep(3);
+            arm_msg.target_x = 0.3;
+            arm_msg.target_y = 0;
+            arm_msg.rotation = 0;
+            arm_msg.gripper = 0.3;
+            arm_msg.platform = 0.3;
+            arm_pub.publish(arm_msg);
+            sleep(1);
             ros::param::set("command","rotate");
         }
     }

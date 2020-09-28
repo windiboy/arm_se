@@ -26,18 +26,16 @@ class VoiceController(object):
 
 if __name__ == '__main__':
     voice_controller = VoiceController("voice_controller")
-    # audio = rospy.Publisher('audio', String, queue_size=10)  # 话题的名称chatter
-    # rospy.Subscriber("get_pos", String,callback, queue_size=10)
     rate = rospy.Rate(100)
 
-    isPub = False
     while not rospy.is_shutdown():
         text = voice_controller.respeaker_audio.record()
-        if text.find("办公室") >= 0 and isPub is not True:
+        if text.find("办公室") >= 0:
             rospy.set_param('command', "start")
-            break
-        if text.find("抓") >= 0:
+        if text.find("抓取") >= 0:
             rospy.set_param('command', "pitch")
+        if text.find("停止行动") >= 0:
+            rospy.set_param('command', "wait")
         # direction = voice_controller.respeaker_interface.direction
         print(text)
         # print(direction)

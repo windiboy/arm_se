@@ -102,5 +102,5 @@ if __name__ == "__main__":
         if rospy.get_param('command') == "back":
             for p in backlists:
                 navi.goto(p)
-            break
+            rospy.set_param("command", "wait")
         r.sleep()
