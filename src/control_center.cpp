@@ -140,6 +140,12 @@ public:
             arm_msg.platform = 0.3;
             arm_pub.publish(arm_msg);
             sleep(3);
+
+            for(int i =0;i<3;i++){
+                zoo_msg.linear.x = -0.5;
+                sleep(0.5);
+                zoo_pub.publish(zoo_msg);
+            }
             ros::param::set("command","back");
         }
     }
