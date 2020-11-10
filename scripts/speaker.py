@@ -43,6 +43,8 @@ if __name__ == "__main__":
     r = rospy.Rate(1)
     dir = os.getcwd()
     dir = dir[:len(dir)-7]
+    dir = "/home/zoo/yang_ws/src/arm_se"
+    print(dir)
     while not rospy.is_shutdown():
         speak.cur_command = rospy.get_param("command")
         print("{}-{}".format(speak.pre_command,speak.cur_command))

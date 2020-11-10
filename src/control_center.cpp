@@ -70,7 +70,7 @@ public:
     void cameraCallback(const geometry_msgs::Point::ConstPtr& msg){
         object_pos[0] = x_win.next(msg->x)-0.15;
         object_pos[1] = y_win.next(msg->y);
-        object_pos[2] = z_win.next(msg->z)-0.076;
+        object_pos[2] = z_win.next(msg->z)-0.076;pb
     }
     bool zooMove()
     {
